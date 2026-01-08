@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Star Clear</string>
+    <string name="title_activity_main">Star Clear</string>
+    <string name="package_name">com.kiteday.starclear</string>
+    <string name="custom_url_scheme">com.kiteday.starclear</string>
+</resources>
