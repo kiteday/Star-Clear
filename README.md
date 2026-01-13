@@ -1,6 +1,6 @@
 - First update : 2026-01-08
 - Last update : 2026-01-13
-- Last code update : 202-01-08
+- Last code update : 2026-01-08
 
 (한글 문서는 곧 업로드 예정입니다!)
 
