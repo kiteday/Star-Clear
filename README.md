@@ -1,7 +1,10 @@
 - First update : 2026-01-08
-- Last update : 2026-01-08
+- Last update : 2026-01-13
+- Last code update : 202-01-08
 
 (한글 문서는 곧 업로드 예정입니다!)
+
+**If you have any questions or feedback, please open an issue in the Issues tab.**
 
 # 🚀 Star Clear: Galaxy Catch
 A mobile arcade game built with React, Vite, and Capacitor, featuring AdMob integration for rewarded ads. Capture stars, avoid bombs, and clear the galaxy!
