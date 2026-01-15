@@ -1,0 +1,21 @@
+platform :ios, '15.0'
+
+target 'App' do
+  use_frameworks!
+
+  # 1. Capacitor 핵심 엔진을 경로로 직접 지정하여 설치합니다.
+  pod 'Capacitor', :path => '../../node_modules/@capacitor/ios'
+  pod 'CapacitorCordova', :path => '../../node_modules/@capacitor/ios'
+  pod 'CapacitorCommunityAdmob', :path => '../../node_modules/@capacitor-community/admob'
+  # 2. 설치된 플러그인들을 수동으로 연결하는 스크립트
+  # npx cap sync를 실행하면 이 아래에 자동으로 플러그인들이 추가될 것입니다.
+end
+
+# 3. Capacitor 전용 빌드 설정 (에러 방지용)
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['ENABLE_BITCODE'] = 'NO'
+    end
+  end
+end

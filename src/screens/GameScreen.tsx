@@ -28,6 +28,7 @@ const GameScreen: React.FC<GameScreenProps> = ({ level, onComplete, onFail, onQu
   const lastTimeRef = useRef<number | null>(null);
   const spawnTimerRef = useRef(0);
 
+  // 별이 떨어지는 주기 결정 로직 (여기서 빈도를 조절합니다)
   // 스폰 간격 계산 (130% 로직 유지)
   const spawnInterval = useMemo(() => {
     const starsNeeded = level.targetScore / 10;
@@ -35,22 +36,7 @@ const GameScreen: React.FC<GameScreenProps> = ({ level, onComplete, onFail, onQu
     return level.timeLimit / starsToSpawn;
   }, [level.targetScore, level.timeLimit]);
 
-  // 부활 트리거 처리
-  // useEffect(() => {
-  //   if (reviveTrigger > 0) {
-  //     setGameState(prev => ({
-  //       ...prev,
-  //       isGameOver: false,
-  //       lives: 1, // 'outOfLives' 체크 없이 무조건 1로 고정 (부활이니까요!)
-  //       time: prev.time <= 0 ? 15 : prev.time + 10, // 시간도 넉넉히 보충
-  //       countdown: 3 // 다시 카운트다운 시작
-  //     }));
-      
-  //     // 화면에 남은 폭탄 제거 (부활하자마자 또 죽는 것 방지)
-  //     objectsRef.current = objectsRef.current.filter(o => o.type !== GameObjectType.BOMB);
-  //   }
-  // }, [reviveTrigger]);
-
+  
   useEffect(() => {
     if (reviveTrigger > 0) {
       setGameState(prev => {
@@ -64,16 +50,18 @@ const GameScreen: React.FC<GameScreenProps> = ({ level, onComplete, onFail, onQu
           countdown: 3, // 부활 시 3초 카운트다운 다시 시작
           
           // 2. 목숨 보충: 목숨이 0 이하라면 1로 만들고, 아니면 현재 목숨 유지
-          lives: isOutOfLives ? 1 : prev.lives,
+          lives: isOutOfLives ? 1 : prev.lives+1,
           
           // 3. 시간 보충: 시간이 0 이하라면 10초를 주고, 아니면 현재 시간 유지 (또는 +10초)
           // 사용자의 의도에 따라 "0일 때만 10초"로 설정하거나 "기존 시간에 +10초"를 선택할 수 있습니다.
-          time: isOutOfTime ? 10 : prev.time 
+          time: isOutOfTime ? 10 : prev.time +10
         };
       });
 
       // 화면에 남은 폭탄 제거 (부활 직후 폭사 방지)
-      objectsRef.current = objectsRef.current.filter(o => o.type !== GameObjectType.BOMB);
+      // objectsRef.current = objectsRef.current.filter(o => o.type !== GameObjectType.BOMB);
+      objectsRef.current = []; // 모든 객체 제거 또는 폭탄만 제거 선택
+      console.log("💎 부활 성공: 목숨과 시간이 보충되었습니다.");
     }
   }, [reviveTrigger]);
 

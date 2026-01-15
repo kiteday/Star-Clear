@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 import { 
   ScreenState,
@@ -26,8 +26,20 @@ export async function initializeAdMob() {
   const status = await AdMob.requestTrackingAuthorization();
   console.log('Tracking Status:', status);
 }
+export default function App(){
+  useEffect(() => {
+    const startApp = async () => {
+      try {
+        await initializeAdMob();
+        console.log("AdMob 초기화 성공");
+      } catch (error) {
+        console.error("AdMob 초기화 실패:", error);
+      }
+    };
+    startApp();
+  }, []);
 
-export default function App() {
+
   const [screen, setScreen] = useState<ScreenState>(ScreenState.MENU);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [userStats, setUserStats] = useState<UserStats>(StorageService.getUserStats());
@@ -87,10 +99,34 @@ export default function App() {
     setShowRewarded(false);
   };
 
-  const handleNextStage = () => {
-    if (activeLevelId < 100) {
-      handleStartGame(activeLevelId + 1);
+  // const handleNextStage = () => {
+  //   if (activeLevelId < 100) {
+  //     handleStartGame(activeLevelId + 1);
+  //   } else {
+  //     setScreen(ScreenState.LEVEL_SELECT);
+  //   }
+  // };
+
+  // App.tsx 내부의 handleNextStage 수정
+const handleNextStage = () => {
+    const nextLevelId = activeLevelId + 1;
+
+    // 1. 전체 레벨 데이터(LEVELS)에 다음 레벨(11)이 있는지 확인
+    const nextLevelData = LEVELS.find(l => l.id === nextLevelId);
+
+    if (nextLevelData) {
+      console.log(`World 전환 혹은 다음 레벨로 이동: Level ${nextLevelId}`);
+      
+      // 2. 현재 레벨 ID를 업데이트
+      setActiveLevelId(nextLevelId);
+      
+      // 3. 게임 화면으로 전환 (만약 결과창에서 호출했다면 필요)
+      setScreen(ScreenState.GAME);
+      
+      // 4. 실패 사유 초기화
+      setFailReason(null);
     } else {
+      // 다음 레벨이 없다면 (최종 클리어) 레벨 선택창으로 이동
       setScreen(ScreenState.LEVEL_SELECT);
     }
   };
@@ -131,7 +167,7 @@ export default function App() {
 
       {(screen === ScreenState.GAME || screen === ScreenState.FAIL) && activeLevelData && (
         <GameScreen 
-          key={`level-${activeLevelId}-status-${screen}`}
+          key={`level-${activeLevelId}`} // screen 상태를 빼서 컴포넌트 재사용 유도
           level={activeLevelData}
           onComplete={handleGameComplete}
           onFail={handleFail}
