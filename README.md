@@ -1,5 +1,5 @@
 - First update : 2026-01-08
-- Last update : 2026-01-13
+- Last update : 2026-01-15
 - Last code update : 2026-01-08
 
 (한글 문서는 곧 업로드 예정입니다!)
@@ -204,3 +204,6 @@ export default defineConfig([
   },
 ])
 ```
+# Admob 
+- https://kiteday.github.io/Star-Clear/app-ads.txt
+- https://kiteday.github.io/Star-Clear/robots.txt
