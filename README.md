@@ -205,5 +205,6 @@ export default defineConfig([
 ])
 ```
 # Admob 
+- [App-ads.txt Site](https://kiteday.github.io/Star-Clear/app-ads.txt)
 - https://kiteday.github.io/Star-Clear/app-ads.txt
 - https://kiteday.github.io/Star-Clear/robots.txt
